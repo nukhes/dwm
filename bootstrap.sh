@@ -1,9 +1,13 @@
 #!/bin/sh
-cp /home/ph/src/dwm/.xinitrc /home/ph/
-cp /home/ph/src/dwm/.profile /home/ph/
-cd /home/ph/src/dwm
+# ensure we have slstatus
+cd /home/pedro/src && git clone --depth 1 https://git.suckless.org/slstatus
+
+cp /home/pedro/src/dwm/.xinitrc /home/pedro
+cp /home/pedro/src/dwm/.profile /home/pedro
+cd /home/pedro/src/dwm
 rm -rf ./config.h
-doas make clean install
-cd /home/ph/src/slstatus
-doas make clean install
+sudo make clean install
+cd /home/pedro/src/slstatus
+sudo make clean install
+
 echo "finished compiling dwm and slstatus"
