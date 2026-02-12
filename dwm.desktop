@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=dwm
+Comment=Dynamic Window Manager
+Exec=/bin/sh /home/pedro/src/dwm/.xinitrc
+Icon=dwm
+Type=Application
