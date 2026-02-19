@@ -6,19 +6,22 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=10" };
-static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=12";
-static const char col_black[]       = "#000000";
-static const char col_white[]       = "#ffffff";
-static const char col_gray[]        = "#aaaaaa";
-static const char col_accent[]      = "#555555";
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11" };
+static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
+
+/* Dracula Theme */
+static const char col_gray1[]       = "#000000";
+static const char col_gray2[]       = "#ffb86c";
+static const char col_gray3[]       = "#ff79c6";
+static const char col_gray4[]       = "#ffb86c";
+static const char col_cyan[]        = "#000000";
 static const char *colors[][3]      = {
-	[SchemeNorm] = { col_white, col_black,  col_gray    },
-	[SchemeSel]  = { col_white, col_accent,  col_accent  },
+    /*               fg         bg         border   */
+    [SchemeNorm] = { col_gray3, col_gray1, col_cyan },
+    [SchemeSel]  = { col_gray4, col_cyan,  col_gray2  },
 };
 
-/* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -26,7 +29,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	{ "Gimp",                                       NULL,  NULL,       0,            1,           -1 },
+
+	/* Bitwarden Chrome Extension */
+	{ "Chromium", "crx_nngceckbapebfimnlniiiahkandclblb",  NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -55,10 +61,15 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0";
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_black, "-nf", col_gray, "-sb", col_accent, "-sf", col_gray, NULL };
-static const char *termcmd[] = { "st", NULL };
-static const char *files[]   = { "thunar", NULL };
-static const char *browser[] = { "firefox", NULL };
+static const char *dmenucmd[] = {
+	"j4-dmenu-desktop",
+	"--dmenu=dmenu -i -fn 'JetBrainsMono Nerd Font:size=11' -nb '#000000' -nf '#ff79c6' -sb '#ffb86c' -sf '#07080a' -p Run:",
+	NULL
+};
+static const char *termcmd[] = { "st", "-e", "/usr/bin/fish", NULL };
+static const char *files[]   = { "st", "-e", "yazi", NULL };
+static const char *browser[] = { "chromium", "--enable-features=VaapiVideoDecodeLinuxGL", NULL };
+static const char *flameshot[] = { "flameshot", "gui", NULL };
 static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",     NULL };
 static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",     NULL };
 static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
@@ -67,8 +78,11 @@ static const char *brdowncmd[] = { "brightnessctl", "set", "10%-", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          SHCMD("/home/pedro/scripts/app-menu.sh") },
-	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("/home/pedro/scripts/screenshot.sh") },
+	{ MODKEY,                       XK_v,      spawn,          SHCMD("/home/pedro/scripts/cliphist.sh sel") },
+	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd} },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("passmenu") },
+	{ MODKEY|ShiftMask,             XK_b,      spawn,          SHCMD("/home/pedro/scripts/bookmarks.sh") },
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = flameshot} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = browser} },
 	{ MODKEY,                       XK_e,      spawn,          {.v = files} },
@@ -118,10 +132,10 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY|ShiftMask,             XK_o, spawn, 		   {.v = downvol } },
-	{ MODKEY|ShiftMask, 		XK_m, spawn,               {.v = mutevol } },
-	{ MODKEY|ShiftMask, 		XK_p, spawn,	           {.v = upvol   } },
-	{ 0, XF86XK_MonBrightnessUp,   spawn, {.v = brupcmd } },
+	{ 0,                            XF86XK_AudioRaiseVolume, spawn,          {.v = upvol } },
+        { 0,                            XF86XK_AudioLowerVolume, spawn,          {.v = downvol } },
+        { 0,                            XF86XK_AudioMute,        spawn,          {.v = mutevol } },
+	{ 0,                            XF86XK_MonBrightnessUp,   spawn, {.v = brupcmd } },
         { 0, XF86XK_MonBrightnessDown, spawn, {.v = brdowncmd } },
 };
 
