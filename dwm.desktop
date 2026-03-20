@@ -2,6 +2,6 @@
 Encoding=UTF-8
 Name=dwm
 Comment=Dynamic Window Manager
-Exec=/bin/sh /home/pedro/src/dwm/.xinitrc
+Exec=/home/pedrohenrique/.xinitrc
 Icon=dwm
 Type=Application
