@@ -4,7 +4,7 @@ static const unsigned int borderpx  = 1;
 static const unsigned int snap      = 32;
 static const int showbar            = 1;
 static const int topbar             = 1;
-static const char *fonts[]          = { "Atkinson Hyperlegible Next Medium:size=10" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=12" };
 static const char a[]               = "#000000";
 static const char b[]               = "#ffb86c";
 static const char c[]               = "#ff79c6";
